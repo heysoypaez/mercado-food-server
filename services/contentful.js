@@ -1,10 +1,17 @@
 const ContentfulLib = require("../lib/contentful.js");	
 const contentfulLib = new ContentfulLib();
 
+
+
 class ContentfulService {
 
 	constructor() {
 		this.contentfulLib = new ContentfulLib();
+	}
+
+	async getAssets() {
+		const assets = await this.contentfulLib.getAssets();
+		return assets || [];
 	}
 
 	async getEntries({tags}) {
@@ -18,8 +25,8 @@ class ContentfulService {
 		return entry || {};
 	}
 
-	async createEntry({entry}) {
-		const createdEntryId = await this.contentfulLib.create( entry);
+	async createEntry({contentTypeId, entry}) {
+		const createdEntryId = await this.contentfulLib.create(contentTypeId, entry);
 		return createdEntryId;
 	}
 
@@ -38,5 +45,6 @@ class ContentfulService {
 		return deletedEntryId;
 	}
 }
+
 
 module.exports = ContentfulService;	

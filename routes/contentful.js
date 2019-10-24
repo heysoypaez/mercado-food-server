@@ -26,6 +26,22 @@ function contentfulApi(app) {
 		}
 	});
 
+	router.get("/assets", async function(req,res,next) {
+		
+		try {
+			//throw new Error("Error getting contentful");
+			const contentful = await contentfulService.getAssets();
+
+			res.status(200).json({
+				data:contentful,
+				message: "Assets listed"
+			});
+		}
+		catch(error) {
+			next(error);
+		}
+	});
+
 	router.get("/:entryId" , async function(req,res,next) {
 		
 		const {entryId} = req.params;
@@ -49,11 +65,11 @@ function contentfulApi(app) {
 				const {body: contentful} = req;
 
 				try {
-					const createdcontentfulId = await contentfulService.createcontentful({contentful});
+					const createdcontentfulId = await contentfulService.createEntry({contentful});
 
 					res.status(201).json({
 						data:createdcontentfulId,
-						message: "contentful created"
+						message: "Entry created"
 					});
 				}
 				catch(error) {
